@@ -1,3 +1,5 @@
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+# A script with a list of commands for submitting SLURM jobs
 
 #### Kinetics training
 JOB_NAME=TimeSformer_divST_8x32_224
