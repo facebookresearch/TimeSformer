@@ -1,4 +1,5 @@
-# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+""" Linear layer (alternate definition)
+"""
 import torch
 import torch.nn.functional as F
 from torch import nn as nn
