@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
 
 import json
@@ -109,7 +108,7 @@ def _get_model_analysis_input(cfg, use_train_input):
            model_inputs[i] = model_inputs[i].unsqueeze(0)
            if cfg.NUM_GPUS:
                model_inputs[i] = model_inputs[i].cuda(non_blocking=True)
-   
+
     else:
        model_inputs = input_tensors.cuda(non_blocking=True).unsqueeze(0)
 

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
 
 import os
@@ -251,7 +250,7 @@ class Kinetics(torch.utils.data.Dataset):
             frames = utils.tensor_normalize(
                 frames, self.cfg.DATA.MEAN, self.cfg.DATA.STD
             )
- 
+
             # T H W C -> C T H W.
             frames = frames.permute(3, 0, 1, 2)
             # Perform data augmentation.
@@ -264,8 +263,8 @@ class Kinetics(torch.utils.data.Dataset):
                 random_horizontal_flip=self.cfg.DATA.RANDOM_FLIP,
                 inverse_uniform_sampling=self.cfg.DATA.INV_UNIFORM_SAMPLE,
             )
- 
- 
+
+
             if not self.cfg.MODEL.ARCH in ['vit']:
                 frames = utils.pack_pathway_output(self.cfg, frames)
             else:
@@ -275,7 +274,7 @@ class Kinetics(torch.utils.data.Dataset):
                      1,
                      torch.linspace(
                          0, frames.shape[1] - 1, self.cfg.DATA.NUM_FRAMES
-    
+
                      ).long(),
                 )
 

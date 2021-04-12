@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
 
 """Train a video classification model."""
@@ -99,7 +98,7 @@ def train_epoch(
         # check Nan Loss.
         misc.check_nan_losses(loss)
 
-        
+
         if cur_global_batch_size >= cfg.GLOBAL_BATCH_SIZE:
             # Perform the backward pass.
             optimizer.zero_grad()
@@ -418,7 +417,7 @@ def train(cfg):
     # Load a checkpoint to resume training if applicable.
     if not cfg.TRAIN.FINETUNE:
       start_epoch = cu.load_train_checkpoint(cfg, model, optimizer)
-    else:   
+    else:
       start_epoch = 0
       cu.load_checkpoint(cfg.TRAIN.CHECKPOINT_FILE_PATH, model)
 

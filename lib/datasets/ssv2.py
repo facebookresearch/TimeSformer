@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
 
 import json
@@ -222,7 +221,7 @@ class Ssv2(torch.utils.data.Dataset):
         num_frames = self.cfg.DATA.NUM_FRAMES
         video_length = len(self._path_to_videos[index])
 
-    
+
         seg_size = float(video_length - 1) / num_frames
         seq = []
         for i in range(num_frames):
