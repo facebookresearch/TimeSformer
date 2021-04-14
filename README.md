@@ -168,7 +168,7 @@ python tools/run_net.py \
 To train TimeSformer via Slurm, please check out our single node Slurm training script [`slurm_scripts/run_single_node_job.sh`](slurm_scripts/run_single_node_job.sh).
 
 
-## Multi-Node Training
+## Multi-Node Training via Submitit
 
 Distributed training is available via Slurm and submitit
 
