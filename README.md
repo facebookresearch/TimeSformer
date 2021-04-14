@@ -17,7 +17,7 @@ If you find TimeSformer useful in your research, please use the following BibTeX
 
 # Model Zoo
 
-We provide TimeSformer models pretrained on Kinetics-400 (K400), Kinetics-600 (K600), and Something-Something-V2 (SSv2) datasets.
+We provide TimeSformer models pretrained on Kinetics-400 (K400), Kinetics-600 (K600), Something-Something-V2 (SSv2), and HowTo100M datasets.
 
 | name | dataset | # of frames | spatial crop | acc@1 | acc@5 | url |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -36,6 +36,14 @@ We provide TimeSformer models pretrained on Kinetics-400 (K400), Kinetics-600 (K
 | TimeSformer | SSv2 | 8 | 224 | 59.1 | 85.6 | [model](https://www.dropbox.com/s/tybhuml57y24wpm/TimeSformer_divST_8_224_SSv2.pyth?dl=0) |
 | TimeSformer-HR | SSv2 | 16 | 448 | 61.8 | 86.9 | [model](https://www.dropbox.com/s/9t68uzk8w2fpfnv/TimeSformer_divST_16_448_SSv2.pyth?dl=0) |
 | TimeSformer-L | SSv2 | 64 | 224 | 62.0 | 87.5 | [model](https://www.dropbox.com/s/3f1rm2al8mhprwa/TimeSformer_divST_64_224_SSv2.pyth?dl=0) |
+
+| name | dataset | # of frames | spatial crop | single clip coverage | acc@1 | url |
+| --- | --- | --- | --- | --- | --- | --- |
+| TimeSformer | HowTo100M | 8 | 224 | 8.5s | 56.8 | [model](https://www.dropbox.com/s/9v8hcm88b9tc6ff/TimeSformer_divST_8x32_224_HowTo100M.pyth?dl=0) |
+| TimeSformer | HowTo100M | 32 | 224 | 34.1s | 61.2 | [model](https://www.dropbox.com/s/4roflx4q1gscu85/TimeSformer_divST_32x32_224_HowTo100M.pyth?dl=0) |
+| TimeSformer | HowTo100M | 64 | 448 | 68.3s | 62.2 | [model](https://www.dropbox.com/s/15bvqltl1j5vyp3/TimeSformer_divST_64x32_224_HowTo100M.pyth?dl=0) |
+| TimeSformer | HowTo100M | 96 | 224 | 102.4s | 62.6 | [model](https://www.dropbox.com/s/t2mzgahnfhgakma/TimeSformer_divST_96x32_224_HowTo100M.pyth?dl=0) |
+
 
 We note that these models were retrained using a slightly different implementation than the one used in the paper. Therefore, there might be a small difference in performance compared to the results reported in the paper.
 
@@ -155,7 +163,12 @@ python tools/run_net.py \
   TRAIN.ENABLE False \
 ```
 
-## Multinode Training
+## Single-Node Training via Slurm
+
+To train TimeSformer via Slurm, please check out our single node Slurm training script [`slurm_scripts/run_single_node_job.sh`](slurm_scripts/run_single_node_job.sh).
+
+
+## Multi-Node Training
 
 Distributed training is available via Slurm and submitit
 
@@ -168,7 +181,7 @@ To train TimeSformer model on Kinetics using 4 nodes with 8 gpus each use the fo
 python tools/submit.py --cfg configs/Kinetics/TimeSformer_divST_8x32_224.yaml --job_dir  /your/job/dir/${JOB_NAME}/ --num_shards 4 --name ${JOB_NAME} --use_volta32
 ```
 
-We provide a few scripts for launching slurm jobs in [`slurm_scripts/`](slurm_scripts/).
+We provide a script for launching slurm jobs in [`slurm_scripts/run_multi_node_job.sh`](slurm_scripts/run_multi_node_job.sh).
 
 ## Finetuning
 
@@ -178,6 +191,11 @@ To finetune from an existing PyTorch checkpoint add the following line in the co
 TRAIN.CHECKPOINT_FILE_PATH path_to_your_PyTorch_checkpoint
 TRAIN.FINETUNE True
 ```
+
+## HowTo100M Dataset Split for Long-Term Video Modeling Experiments
+
+If you want to experiment with the long-term video modeling task on HowTo100M, please download the train/test split files from [here](https://www.dropbox.com/sh/ttvsxwqypijjuda/AACmJx1CnddW6cVBoc21eSuva?dl=0).
+
 
 # Environment
 
