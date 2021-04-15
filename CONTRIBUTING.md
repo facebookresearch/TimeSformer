@@ -22,4 +22,4 @@ clear and has sufficient instructions to be able to reproduce the issue.
 
 ## License
 By contributing to TimeSformer, you agree that your contributions will be licensed
-under the [LICENSE.md](.github/LICENSE.md) file in the root directory of this source tree.
+under the [LICENSE.md](LICENSE.md) file in the root directory of this source tree.
