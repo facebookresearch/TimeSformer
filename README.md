@@ -192,7 +192,7 @@ TRAIN.CHECKPOINT_FILE_PATH path_to_your_PyTorch_checkpoint
 TRAIN.FINETUNE True
 ```
 
-## HowTo100M Dataset Split for Long-Term Video Modeling Experiments
+## HowTo100M Dataset Split
 
 If you want to experiment with the long-term video modeling task on HowTo100M, please download the train/test split files from [here](https://www.dropbox.com/sh/ttvsxwqypijjuda/AACmJx1CnddW6cVBoc21eSuva?dl=0).
 
