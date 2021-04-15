@@ -1,4 +1,5 @@
-#!/bin/bash
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+# A script with a list of commands for submitting SLURM jobs
 
 #SBATCH --job-name=timesformer
 #SBATCH --mail-type=END,FAIL,REQUEUE
