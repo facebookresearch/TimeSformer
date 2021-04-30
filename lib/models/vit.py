@@ -257,8 +257,9 @@ class VisionTransformer(nn.Module):
             pos_embed = self.pos_embed
             cls_pos_embed = pos_embed[0,0,:].unsqueeze(0).unsqueeze(1)
             other_pos_embed = pos_embed[0,1:,:].unsqueeze(0).transpose(1, 2)
+            P = int(other_pos_embed.size(2) ** 0.5)
             H = x.size(1) // W
-            other_pos_embed = other_pos_embed.reshape(1, x.size(2), 14, 14)
+            other_pos_embed = other_pos_embed.reshape(1, x.size(2), P, P)
             new_pos_embed = F.interpolate(other_pos_embed, size=(H, W), mode='nearest')
             new_pos_embed = new_pos_embed.flatten(2)
             new_pos_embed = new_pos_embed.transpose(1, 2)
@@ -274,7 +275,14 @@ class VisionTransformer(nn.Module):
             cls_tokens = x[:B, 0, :].unsqueeze(1)
             x = x[:,1:]
             x = rearrange(x, '(b t) n m -> (b n) t m',b=B,t=T)
-            x = x + self.time_embed
+            ## Resizing time embeddings in case they don't match
+            if T != self.time_embed.size(1):
+                time_embed = self.time_embed.transpose(1, 2)
+                new_time_embed = F.interpolate(time_embed, size=(T), mode='nearest')
+                new_time_embed = new_time_embed.transpose(1, 2)
+                x = x + new_time_embed
+            else:
+                x = x + self.time_embed
             x = self.time_drop(x)
             x = rearrange(x, '(b n) t m -> b (n t) m',b=B,t=T)
             x = torch.cat((cls_tokens, x), dim=1)
@@ -322,6 +330,22 @@ class vit_base_patch16_224(nn.Module):
         if self.pretrained:
             load_pretrained(self.model, num_classes=self.model.num_classes, in_chans=kwargs.get('in_chans', 3), filter_fn=_conv_filter, img_size=cfg.DATA.TRAIN_CROP_SIZE, num_patches=self.num_patches, attention_type=self.attention_type, pretrained_model=pretrained_model)
 
+    def forward(self, x):
+        x = self.model(x)
+        return x
+
+@MODEL_REGISTRY.register()
+class TimeSformer(nn.Module):
+    def __init__(self, img_size=224, patch_size=16, num_classes=400, num_frames=8, attention_type='divided_space_time',  pretrained_model='', **kwargs):
+        super(TimeSformer, self).__init__()
+        self.pretrained=True
+        self.model = VisionTransformer(img_size=img_size, num_classes=num_classes, patch_size=patch_size, embed_dim=768, depth=12, num_heads=12, mlp_ratio=4, qkv_bias=True, norm_layer=partial(nn.LayerNorm, eps=1e-6), drop_rate=0., attn_drop_rate=0., drop_path_rate=0.1, num_frames=num_frames, attention_type=attention_type, **kwargs)
+
+        self.attention_type = attention_type
+        self.model.default_cfg = default_cfgs['vit_base_patch'+str(patch_size)+'_224']
+        self.num_patches = (img_size // patch_size) * (img_size // patch_size)
+        if self.pretrained:
+            load_pretrained(self.model, num_classes=self.model.num_classes, in_chans=kwargs.get('in_chans', 3), filter_fn=_conv_filter, img_size=img_size, num_frames=num_frames, num_patches=self.num_patches, attention_type=self.attention_type, pretrained_model=pretrained_model)
     def forward(self, x):
         x = self.model(x)
         return x

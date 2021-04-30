@@ -44,8 +44,18 @@ We provide TimeSformer models pretrained on Kinetics-400 (K400), Kinetics-600 (K
 | TimeSformer | HowTo100M | 64 | 448 | 68.3s | 62.2 | [model](https://www.dropbox.com/s/15bvqltl1j5vyp3/TimeSformer_divST_64x32_224_HowTo100M.pyth?dl=0) |
 | TimeSformer | HowTo100M | 96 | 224 | 102.4s | 62.6 | [model](https://www.dropbox.com/s/t2mzgahnfhgakma/TimeSformer_divST_96x32_224_HowTo100M.pyth?dl=0) |
 
+We note that these models were re-trained using a slightly different implementation than the one used in the paper. Therefore, there might be a small difference in performance compared to the results reported in the paper.
 
-We note that these models were retrained using a slightly different implementation than the one used in the paper. Therefore, there might be a small difference in performance compared to the results reported in the paper.
+You can load the pretrained models as follows:
+
+```
+import torch
+from lib.models.vit import TimeSformer
+
+model = TimeSformer(img_size=224, num_classes=400, num_frames=8, attention_type='divided_space_time',  pretrained_model='/path/to/pretrained/model.pyth')
+dummy_video = torch.randn(2, 3, 8, 224, 224) # (batch x channels x frames x height x width)
+pred = model(dummy_video,) # (2, 400)
+```
 
 # Installation
 

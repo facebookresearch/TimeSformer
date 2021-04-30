@@ -35,6 +35,14 @@ def load_state_dict(checkpoint_path, use_ema=False):
                 name = k[7:] if k.startswith('module') else k
                 new_state_dict[name] = v
             state_dict = new_state_dict
+        elif 'model_state' in checkpoint:
+            state_dict_key = 'model_state'
+            new_state_dict = OrderedDict()
+            for k, v in checkpoint[state_dict_key].items():
+                # strip `model.` prefix
+                name = k[6:] if k.startswith('model') else k
+                new_state_dict[name] = v
+            state_dict = new_state_dict
         else:
             state_dict = checkpoint
         _logger.info("Loaded {} from checkpoint '{}'".format(state_dict_key, checkpoint_path))
@@ -89,7 +97,7 @@ def resume_checkpoint(model, checkpoint_path, optimizer=None, loss_scaler=None, 
         raise FileNotFoundError()
 
 
-def load_pretrained(model, cfg=None, num_classes=1000, in_chans=3, filter_fn=None, img_size=224, num_patches=196, attention_type='divided_space_time', pretrained_model="", strict=True):
+def load_pretrained(model, cfg=None, num_classes=1000, in_chans=3, filter_fn=None, img_size=224, num_frames=8, num_patches=196, attention_type='divided_space_time', pretrained_model="", strict=True):
     if cfg is None:
         cfg = getattr(model, 'default_cfg')
     if cfg is None or 'url' not in cfg or not cfg['url']:
@@ -103,6 +111,7 @@ def load_pretrained(model, cfg=None, num_classes=1000, in_chans=3, filter_fn=Non
          state_dict = load_state_dict(pretrained_model)['model']
        except:
          state_dict = load_state_dict(pretrained_model)
+
 
     if filter_fn is not None:
         state_dict = filter_fn(state_dict)
@@ -149,7 +158,8 @@ def load_pretrained(model, cfg=None, num_classes=1000, in_chans=3, filter_fn=Non
         state_dict[classifier_name + '.weight'] = classifier_weight[1:]
         classifier_bias = state_dict[classifier_name + '.bias']
         state_dict[classifier_name + '.bias'] = classifier_bias[1:]
-    elif num_classes != cfg['num_classes']: #and len(pretrained_model) == 0:
+    elif num_classes != state_dict[classifier_name + '.weight'].size(0):
+        print('Removing the last fully connected layer due to dimensions mismatch ('+str(num_classes)+ ' != '+str(state_dict[classifier_name + '.weight'].size(0))+').', flush=True)
         # completely discard fully connected for all other differences between pretrained and created model
         del state_dict[classifier_name + '.weight']
         del state_dict[classifier_name + '.bias']
@@ -157,7 +167,7 @@ def load_pretrained(model, cfg=None, num_classes=1000, in_chans=3, filter_fn=Non
 
 
     ## Resizing the positional embeddings in case they don't match
-    if img_size != cfg['input_size'][1]:
+    if num_patches + 1 != state_dict['pos_embed'].size(1):
         pos_embed = state_dict['pos_embed']
         cls_pos_embed = pos_embed[0,0,:].unsqueeze(0).unsqueeze(1)
         other_pos_embed = pos_embed[0,1:,:].unsqueeze(0).transpose(1, 2)
@@ -166,16 +176,28 @@ def load_pretrained(model, cfg=None, num_classes=1000, in_chans=3, filter_fn=Non
         new_pos_embed = torch.cat((cls_pos_embed, new_pos_embed), 1)
         state_dict['pos_embed'] = new_pos_embed
 
+    ## Resizing time embeddings in case they don't match
+    if 'time_embed' in state_dict and num_frames != state_dict['time_embed'].size(1):
+        time_embed = state_dict['time_embed'].transpose(1, 2)
+        new_time_embed = F.interpolate(time_embed, size=(num_frames), mode='nearest')
+        state_dict['time_embed'] = new_time_embed.transpose(1, 2)
+
     ## Initializing temporal attention
     if attention_type == 'divided_space_time':
         new_state_dict = state_dict.copy()
         for key in state_dict:
             if 'blocks' in key and 'attn' in key:
                 new_key = key.replace('attn','temporal_attn')
-                new_state_dict[new_key] = state_dict[key]
+                if not new_key in state_dict:
+                   new_state_dict[new_key] = state_dict[key]
+                else:
+                   new_state_dict[new_key] = state_dict[new_key]
             if 'blocks' in key and 'norm1' in key:
                 new_key = key.replace('norm1','temporal_norm1')
-                new_state_dict[new_key] = state_dict[key]
+                if not new_key in state_dict:
+                   new_state_dict[new_key] = state_dict[key]
+                else:
+                   new_state_dict[new_key] = state_dict[new_key]
         state_dict = new_state_dict
 
     ## Loading the weights
