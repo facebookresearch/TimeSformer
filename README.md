@@ -48,7 +48,7 @@ We note that these models were re-trained using a slightly different implementat
 
 You can load the pretrained models as follows:
 
-```
+```python
 import torch
 from lib.models.vit import TimeSformer
 
