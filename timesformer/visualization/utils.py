@@ -2,7 +2,7 @@
 
 import itertools
 import numpy as np
-import matplottimesformer.pyplot as plt
+import matplotlib.pyplot as plt
 import torch
 from sklearn.metrics import confusion_matrix
 
