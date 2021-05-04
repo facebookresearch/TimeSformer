@@ -3,7 +3,7 @@
 import logging as log
 import math
 import os
-import matplottimesformer.pyplot as plt
+import matplotlib.pyplot as plt
 import torch
 from torch.utils.tensorboard import SummaryWriter
 from torchvision.utils import make_grid
