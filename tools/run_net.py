@@ -1,8 +1,8 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
 
 """Wrapper to train and test a video classification model."""
-from lib.utils.misc import launch_job
-from lib.utils.parser import load_config, parse_args
+from timesformer.utils.misc import launch_job
+from timesformer.utils.parser import load_config, parse_args
 
 from tools.test_net import test
 from tools.train_net import train

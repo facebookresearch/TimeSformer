@@ -2,12 +2,12 @@
 
 import itertools
 import numpy as np
-import matplotlib.pyplot as plt
+import matplottimesformer.pyplot as plt
 import torch
 from sklearn.metrics import confusion_matrix
 
-import lib.utils.logging as logging
-from lib.datasets.utils import pack_pathway_output, tensor_normalize
+import timesformer.utils.logging as logging
+from timesformer.datasets.utils import pack_pathway_output, tensor_normalize
 
 logger = logging.get_logger(__name__)
 

@@ -36,9 +36,9 @@ import pprint
 import time
 from collections import defaultdict
 from fvcore.common.file_io import PathManager
-import lib.utils.distributed as du
+import timesformer.utils.distributed as du
 
-from lib.utils.ava_evaluation import (
+from timesformer.utils.ava_evaluation import (
     object_detection_evaluation,
     standard_fields,
 )

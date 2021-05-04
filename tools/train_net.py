@@ -7,18 +7,18 @@ import pprint
 import torch
 from fvcore.nn.precise_bn import get_bn_modules, update_bn_stats
 
-import lib.models.losses as losses
-import lib.models.optimizer as optim
-import lib.utils.checkpoint as cu
-import lib.utils.distributed as du
-import lib.utils.logging as logging
-import lib.utils.metrics as metrics
-import lib.utils.misc as misc
-import lib.visualization.tensorboard_vis as tb
-from lib.datasets import loader
-from lib.models import build_model
-from lib.utils.meters import TrainMeter, ValMeter
-from lib.utils.multigrid import MultigridSchedule
+import timesformer.models.losses as losses
+import timesformer.models.optimizer as optim
+import timesformer.utils.checkpoint as cu
+import timesformer.utils.distributed as du
+import timesformer.utils.logging as logging
+import timesformer.utils.metrics as metrics
+import timesformer.utils.misc as misc
+import timesformer.visualization.tensorboard_vis as tb
+from timesformer.datasets import loader
+from timesformer.models import build_model
+from timesformer.utils.meters import TrainMeter, ValMeter
+from timesformer.utils.multigrid import MultigridSchedule
 
 from timm.data import Mixup
 from timm.loss import LabelSmoothingCrossEntropy, SoftTargetCrossEntropy

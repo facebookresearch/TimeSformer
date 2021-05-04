@@ -3,10 +3,10 @@
 A script to benchmark data loading.
 """
 
-import lib.utils.logging as logging
-from lib.utils.benchmark import benchmark_data_loading
-from lib.utils.misc import launch_job
-from lib.utils.parser import load_config, parse_args
+import timesformer.utils.logging as logging
+from timesformer.utils.benchmark import benchmark_data_loading
+from timesformer.utils.misc import launch_job
+from timesformer.utils.parser import load_config, parse_args
 
 logger = logging.get_logger(__name__)
 

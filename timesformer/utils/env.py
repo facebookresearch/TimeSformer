@@ -2,7 +2,7 @@
 
 """Set up Environment."""
 
-import lib.utils.logging as logging
+import timesformer.utils.logging as logging
 
 _ENV_SETUP_DONE = False
 

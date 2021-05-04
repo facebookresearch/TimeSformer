@@ -4,7 +4,7 @@
 
 import numpy as np
 
-import lib.utils.logging as logging
+import timesformer.utils.logging as logging
 
 logger = logging.get_logger(__name__)
 

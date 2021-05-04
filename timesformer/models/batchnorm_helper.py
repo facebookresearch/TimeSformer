@@ -8,7 +8,7 @@ import torch.distributed as dist
 import torch.nn as nn
 from torch.autograd.function import Function
 
-import lib.utils.distributed as du
+import timesformer.utils.distributed as du
 
 
 def get_norm(cfg):
