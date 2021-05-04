@@ -1,0 +1,26 @@
+name: timesformer
+channels:
+- pytorch 
+- conda-forge
+- defaults
+dependencies:
+- python>3.7
+- jupyterlab
+- pandas>=1.2
+- numpy>1.19
+- pytorch>=1.6
+- torchvision>=0.7
+- scikit-learn>=0.22
+- opencv>=4.2
+- pyyaml>=5.1
+- yacs>=0.1.6
+- einops>=0.3
+- tensorboard
+- psutil
+- tqdm
+- matplotlib
+- simplejson
+- pip
+- pip:
+  - fvcore
+  - av
