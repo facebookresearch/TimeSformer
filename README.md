@@ -76,6 +76,7 @@ Then, install the following packages:
 - timm: `pip install timm`
 - PyAV: `conda install av -c conda-forge`
 - psutil: `pip install psutil`
+- scikit-learn: `pip install scikit-learn`
 - OpenCV: `pip install opencv-python`
 - tensorboard: `pip install tensorboard`
 
