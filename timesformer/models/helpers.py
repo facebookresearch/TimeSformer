@@ -14,9 +14,9 @@ import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 import torch.nn.functional as F
 
-from lib.models.features import FeatureListNet, FeatureDictNet, FeatureHookNet
-from lib.models.conv2d_same import Conv2dSame
-from lib.models.linear import Linear
+from timesformer.models.features import FeatureListNet, FeatureDictNet, FeatureHookNet
+from timesformer.models.conv2d_same import Conv2dSame
+from timesformer.models.linear import Linear
 
 
 _logger = logging.getLogger(__name__)

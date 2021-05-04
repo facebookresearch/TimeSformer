@@ -11,14 +11,14 @@ import cv2
 from einops import rearrange, reduce, repeat
 import scipy.io
 
-import lib.utils.checkpoint as cu
-import lib.utils.distributed as du
-import lib.utils.logging as logging
-import lib.utils.misc as misc
-import lib.visualization.tensorboard_vis as tb
-from lib.datasets import loader
-from lib.models import build_model
-from lib.utils.meters import TestMeter
+import timesformer.utils.checkpoint as cu
+import timesformer.utils.distributed as du
+import timesformer.utils.logging as logging
+import timesformer.utils.misc as misc
+import timesformer.visualization.tensorboard_vis as tb
+from timesformer.datasets import loader
+from timesformer.models import build_model
+from timesformer.utils.meters import TestMeter
 
 logger = logging.get_logger(__name__)
 

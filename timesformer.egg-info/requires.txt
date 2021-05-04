@@ -1,0 +1,5 @@
+einops>=0.3
+torch>=1.6
+
+[tensorboard_video_visualization]
+moviepy

@@ -7,10 +7,10 @@ import multiprocessing
 import sys
 
 import torch
-import lib.utils.checkpoint as cu
-import lib.utils.multiprocessing as mpu
-from lib.utils.misc import launch_job
-from lib.utils.parser import load_config
+import timesformer.utils.checkpoint as cu
+import timesformer.utils.multiprocessing as mpu
+from timesformer.utils.misc import launch_job
+from timesformer.utils.parser import load_config
 
 from tools.run_net import get_func
 

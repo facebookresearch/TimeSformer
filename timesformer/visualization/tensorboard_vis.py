@@ -3,14 +3,14 @@
 import logging as log
 import math
 import os
-import matplotlib.pyplot as plt
+import matplottimesformer.pyplot as plt
 import torch
 from torch.utils.tensorboard import SummaryWriter
 from torchvision.utils import make_grid
 
-import lib.utils.logging as logging
-import lib.visualization.utils as vis_utils
-from lib.utils.misc import get_class_names
+import timesformer.utils.logging as logging
+import timesformer.visualization.utils as vis_utils
+from timesformer.utils.misc import get_class_names
 
 logger = logging.get_logger(__name__)
 log.getLogger("matplotlib").setLevel(log.ERROR)

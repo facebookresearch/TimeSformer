@@ -10,9 +10,9 @@ import warnings
 import torch.nn.functional as F
 import numpy as np
 
-from lib.models.vit_utils import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
-from lib.models.helpers import load_pretrained
-from lib.models.vit_utils import DropPath, to_2tuple, trunc_normal_
+from timesformer.models.vit_utils import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
+from timesformer.models.helpers import load_pretrained
+from timesformer.models.vit_utils import DropPath, to_2tuple, trunc_normal_
 
 from .build import MODEL_REGISTRY
 from torch import einsum

@@ -5,8 +5,8 @@
 import argparse
 import sys
 
-import lib.utils.checkpoint as cu
-from lib.config.defaults import get_cfg
+import timesformer.utils.checkpoint as cu
+from timesformer.config.defaults import get_cfg
 
 
 def parse_args():
