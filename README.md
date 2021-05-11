@@ -91,7 +91,7 @@ python setup.py build develop
 
 ## Dataset Preparation
 
-Please use the dataset preparation instructions provided in [DATASET.md](lib/datasets/DATASET.md).
+Please use the dataset preparation instructions provided in [DATASET.md](timesformer/datasets/DATASET.md).
 
 ## Training the Default TimeSformer
 
