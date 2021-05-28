@@ -1,17 +1,16 @@
 # TimeSformer
 
-This is an official pytorch implementation of [Is Space-Time Attention All You Need for Video Understanding?](https://arxiv.org/pdf/2102.05095.pdf). In this repository, we provide PyTorch code for training and testing our proposed TimeSformer model. TimeSformer provides an efficient video classification framework that achieves state-of-the-art results on several video action recognition benchmarks such as Kinetics-400.
+This is an official pytorch implementation of our ICML 2021 paper [Is Space-Time Attention All You Need for Video Understanding?](https://arxiv.org/pdf/2102.05095.pdf). In this repository, we provide PyTorch code for training and testing our proposed TimeSformer model. TimeSformer provides an efficient video classification framework that achieves state-of-the-art results on several video action recognition benchmarks such as Kinetics-400.
 
 If you find TimeSformer useful in your research, please use the following BibTeX entry for citation.
 
 ```BibTeX
-@misc{bertasius2021spacetime,
-    title   = {Is Space-Time Attention All You Need for Video Understanding?},
+@inproceedings{gberta_2021_ICML,
     author  = {Gedas Bertasius and Heng Wang and Lorenzo Torresani},
-    year    = {2021},
-    eprint  = {2102.05095},
-    archivePrefix = {arXiv},
-    primaryClass = {cs.CV}
+    title = {Is Space-Time Attention All You Need for Video Understanding?},
+    booktitle   = {Proceedings of the International Conference on Machine Learning (ICML)}, 
+    month = {July},
+    year = {2021}
 }
 ```
 
