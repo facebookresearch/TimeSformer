@@ -84,7 +84,7 @@ def trunc_normal_(tensor, mean=0., std=1., a=-2., b=2.):
 # From PyTorch internals
 def _ntuple(n):
     def parse(x):
-        if isinstance(x, collections.abc.Iterable):
+        if isinstance(x, container_abcs.Iterable):
             return x
         return tuple(repeat(x, n))
     return parse
