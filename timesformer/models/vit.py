@@ -328,7 +328,7 @@ class vit_base_patch16_224(nn.Module):
         self.num_patches = (cfg.DATA.TRAIN_CROP_SIZE // patch_size) * (cfg.DATA.TRAIN_CROP_SIZE // patch_size)
         pretrained_model=cfg.TIMESFORMER.PRETRAINED_MODEL
         if self.pretrained:
-            load_pretrained(self.model, num_classes=self.model.num_classes, in_chans=kwargs.get('in_chans', 3), filter_fn=_conv_filter, img_size=cfg.DATA.TRAIN_CROP_SIZE, num_patches=self.num_patches, attention_type=self.attention_type, pretrained_model=pretrained_model)
+            load_pretrained(self.model, num_classes=self.model.num_classes, in_chans=kwargs.get('in_chans', 3), filter_fn=_conv_filter, img_size=cfg.DATA.TRAIN_CROP_SIZE, num_frames=cfg.DATA.NUM_FRAMES, num_patches=self.num_patches, attention_type=self.attention_type, pretrained_model=pretrained_model)
 
     def forward(self, x):
         x = self.model(x)
