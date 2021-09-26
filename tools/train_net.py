@@ -2,6 +2,7 @@
 
 """Train a video classification model."""
 
+import time
 import numpy as np
 import pprint
 import torch
@@ -47,9 +48,13 @@ def train_epoch(
     model.train()
     train_meter.iter_tic()
     data_size = len(train_loader)
+    # print(train_loader.batch_size)
+    # exit(0)
+    benchmark_tic = 0
+    benchmark_batches_sum = 0
 
-    cur_global_batch_size = cfg.NUM_SHARDS * cfg.TRAIN.BATCH_SIZE
-    num_iters = cfg.GLOBAL_BATCH_SIZE // cur_global_batch_size
+    cur_global_batch_size = cfg.NUM_SHARDS * cfg.TRAIN.BATCH_SIZE # cfg.TRAIN.BATCH_SIZE(64)
+    num_iters = cfg.GLOBAL_BATCH_SIZE // cur_global_batch_size # GLOBAL_BATCH_SIZE // cfg.TRAIN.BATCH_SIZE
 
     for cur_iter, (inputs, labels, _, meta) in enumerate(train_loader):
         # Transfer the data to the current GPU device.
@@ -166,6 +171,10 @@ def train_epoch(
                     cfg.NUM_GPUS, 1
                 ),  # If running  on CPU (cfg.NUM_GPUS == 1), use 1 to represent 1 CPU.
             )
+            if cur_iter >= 4:
+                benchmark_batches_sum += inputs.size(0) * max(cfg.NUM_GPUS, 1)
+                if cur_iter == 4:
+                    benchmark_tic = time.time()
             # write to tensorboard format if available.
             if writer is not None:
                 writer.add_scalars(
@@ -185,6 +194,9 @@ def train_epoch(
     # Log epoch stats.
     train_meter.log_epoch_stats(cur_epoch)
     train_meter.reset()
+    benchmark_time = time.time() - benchmark_tic
+    print()
+    print("avg_ips: {} instance/sec.".format(benchmark_batches_sum / benchmark_time))
 
 
 @torch.no_grad()
@@ -486,7 +498,7 @@ def train(cfg):
         is_eval_epoch = misc.is_eval_epoch(
             cfg, cur_epoch, None if multigrid is None else multigrid.schedule
         )
-
+        is_eval_epoch = False # 测试不需要eval
         # Compute precise BN stats.
         if (
             (is_checkp_epoch or is_eval_epoch)
