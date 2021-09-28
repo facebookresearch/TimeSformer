@@ -76,7 +76,7 @@ class Kinetics(torch.utils.data.Dataset):
         Construct the video loader.
         """
         path_to_file = os.path.join(
-            self.cfg.DATA.PATH_TO_DATA_DIR, "{}.csv".format(self.mode)
+            self.cfg.DATA.PATH_TO_DATA_DIR, "{}.txt".format(self.mode)
         )
         assert PathManager.exists(path_to_file), "{} dir not found".format(
             path_to_file

@@ -13,6 +13,7 @@ def get_func(cfg):
     test_func = test
     return train_func, test_func
 
+
 def main():
     """
     Main function to spawn the train and test process.
