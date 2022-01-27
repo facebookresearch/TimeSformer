@@ -49,7 +49,6 @@ def train_epoch(
     train_meter.iter_tic()
     data_size = len(train_loader)
     benchmark_tic = 0.0
-
     cur_global_batch_size = cfg.NUM_SHARDS * cfg.TRAIN.BATCH_SIZE # cfg.TRAIN.BATCH_SIZE(64)
     num_iters = cfg.GLOBAL_BATCH_SIZE // cur_global_batch_size # GLOBAL_BATCH_SIZE // cfg.TRAIN.BATCH_SIZE
     max_iters = 60

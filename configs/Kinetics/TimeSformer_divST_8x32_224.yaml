@@ -4,7 +4,7 @@ TRAIN:
   BATCH_SIZE: 8
   EVAL_PERIOD: 5
   CHECKPOINT_PERIOD: 5
-  AUTO_RESUME: True
+  AUTO_RESUME: False
 DATA:
   PATH_TO_DATA_DIR: /path/to/kinetics/
   NUM_FRAMES: 8
@@ -31,7 +31,7 @@ MODEL:
   LOSS_FUNC: cross_entropy
   DROPOUT_RATE: 0.5
 TEST:
-  ENABLE: True
+  ENABLE: False
   DATASET: kinetics
   BATCH_SIZE: 8
   NUM_ENSEMBLE_VIEWS: 1
