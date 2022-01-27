@@ -48,16 +48,16 @@ def train_epoch(
     model.train()
     train_meter.iter_tic()
     data_size = len(train_loader)
-    # print(train_loader.batch_size)
-    # exit(0)
-    benchmark_tic = 0
-    benchmark_batches_sum = 0
+    benchmark_tic = 0.0
 
     cur_global_batch_size = cfg.NUM_SHARDS * cfg.TRAIN.BATCH_SIZE # cfg.TRAIN.BATCH_SIZE(64)
     num_iters = cfg.GLOBAL_BATCH_SIZE // cur_global_batch_size # GLOBAL_BATCH_SIZE // cfg.TRAIN.BATCH_SIZE
-
+    max_iters = 60
     for cur_iter, (inputs, labels, _, meta) in enumerate(train_loader):
+        if cur_iter >= max_iters:
+            exit(0)
         # Transfer the data to the current GPU device.
+        start_tic = time.time()
         if cfg.NUM_GPUS:
             if isinstance(inputs, (list,)):
                 for i in range(len(inputs)):
@@ -171,10 +171,6 @@ def train_epoch(
                     cfg.NUM_GPUS, 1
                 ),  # If running  on CPU (cfg.NUM_GPUS == 1), use 1 to represent 1 CPU.
             )
-            if cur_iter >= 4:
-                benchmark_batches_sum += inputs.size(0) * max(cfg.NUM_GPUS, 1)
-                if cur_iter == 4:
-                    benchmark_tic = time.time()
             # write to tensorboard format if available.
             if writer is not None:
                 writer.add_scalars(
@@ -186,7 +182,10 @@ def train_epoch(
                     },
                     global_step=data_size * cur_epoch + cur_iter,
                 )
-
+        end_tic = time.time()
+        batch_time = end_tic - start_tic
+        ips_str = "ips: {:.5f} instance/sec.".format(labels.shape[0] / batch_time)
+        print(ips_str)
         train_meter.iter_toc()  # measure allreduce for this meter
         train_meter.log_iter_stats(cur_epoch, cur_iter)
         train_meter.iter_tic()
@@ -194,9 +193,6 @@ def train_epoch(
     # Log epoch stats.
     train_meter.log_epoch_stats(cur_epoch)
     train_meter.reset()
-    benchmark_time = time.time() - benchmark_tic
-    print()
-    print("avg_ips: {} instance/sec.".format(benchmark_batches_sum / benchmark_time))
 
 
 @torch.no_grad()

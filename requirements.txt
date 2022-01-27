@@ -1,0 +1,17 @@
+jupyterlab
+pandas
+numpy>1.19
+torch==1.8.0
+torchvision>=0.7
+scikit-learn>=0.22
+opencv-python>=4.2.0.32
+pyyaml>=5.1
+yacs>=0.1.6
+einops>=0.3
+tensorboard
+psutil
+tqdm
+matplotlib
+simplejson
+fvcore
+av
