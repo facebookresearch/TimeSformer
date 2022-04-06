@@ -3,6 +3,7 @@
 """Helper functions for multigrid training."""
 
 import numpy as np
+import torch
 from torch.utils.data.sampler import Sampler
 
 TORCH_MAJOR = int(torch.__version__.split('.')[0])
